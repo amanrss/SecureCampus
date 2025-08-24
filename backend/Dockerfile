@@ -5,20 +5,23 @@ FROM python:3.11 as builder
 # Set the working directory
 WORKDIR /app
 
-# Install system-level dependencies required for compiling dlib and opencv
-# This is the crucial step that fixes the build errors
+# Install system-level dependencies with the correct, modern package names
+# This is the definitive fix for the build errors
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \
-    libgl1-mesa-glx \
+    libgl1 \
     libglib2.0-0 \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy only the requirements file
 COPY requirements.txt .
 
 # Install all Python packages into a dedicated folder
-# This will compile insightface and dlib successfully
+# This will now compile successfully
 RUN pip install --no-cache-dir --prefix="/install" -r requirements.txt
 
 
@@ -29,10 +32,12 @@ FROM python:3.11-slim
 # Set the working directory
 WORKDIR /app
 
-# Install the same system libraries needed for the packages to RUN
+# Install only the RUNTIME system libraries needed for the packages to function
 RUN apt-get update && apt-get install -y \
-    libgl1-mesa-glx \
+    libgl1 \
     libglib2.0-0 \
+    libsm6 \
+    libxext6 \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy the installed packages from the builder stage

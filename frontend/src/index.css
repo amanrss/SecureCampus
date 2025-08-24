@@ -1,0 +1,88 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600;700&display=swap');
+
+:root{
+  --bg:#06070a;
+  --glass: rgba(255,255,255,0.06);
+  --neon-cyan: #00F5FF;
+  --neon-magenta: #FF3DAB;
+}
+
+body {
+  @apply bg-[color:var(--bg)] text-slate-100 antialiased;
+  font-family: Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(0,245,255,0.03), transparent 8%),
+              radial-gradient(1000px 500px at 90% 80%, rgba(255,61,171,0.03), transparent 10%),
+              var(--bg);
+}
+
+/* Animated scanlines */
+.scanlines::before{
+  content: '';
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(transparent 92%, rgba(255,255,255,0.01) 93%);
+  background-size: 100% 6px;
+  opacity: 0.6;
+  mix-blend-mode: overlay;
+  animation: scan 8s linear infinite;
+}
+@keyframes scan{
+  0% { transform: translateY(0); }
+  100% { transform: translateY(-6px); }
+}
+
+/* Glass card helper */
+.glass {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 8px 30px rgba(2,6,23,0.6);
+  backdrop-filter: blur(8px);
+}
+
+.neon-text {
+  color: var(--neon-cyan);
+  text-shadow:
+    0 0 8px rgba(0,245,255,0.14),
+    0 0 24px rgba(0,245,255,0.06);
+}
+
+/* Glowing outline */
+.glow {
+  box-shadow: 0 0 32px rgba(0,245,255,0.06), inset 0 1px 0 rgba(255,255,255,0.02);
+  border: 1px solid rgba(0,245,255,0.06);
+}
+
+/* subtle button neon */
+.btn-neon {
+  background: linear-gradient(90deg, rgba(0,245,255,0.08), rgba(255,61,171,0.03));
+  border: 1px solid rgba(0,245,255,0.08);
+  padding: 0.5rem 1rem;
+  border-radius: 0.75rem;
+  color: white;
+}
+.btn-neon:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(0,245,255,0.08);
+}
+
+/* camera tile */
+.cam-tile {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+/* timeline dot */
+.timeline-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 999px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+  border: 2px solid rgba(255,255,255,0.06);
+}

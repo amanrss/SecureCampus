@@ -1,0 +1,10 @@
+# IDE-specific folders
+.idea/
+.vscode/
+
+# macOS files
+.DS_Store
+
+# Build artifacts
+/build/
+/dist/

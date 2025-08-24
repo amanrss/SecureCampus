@@ -1,0 +1,15 @@
+# Python virtual environment
+/venv/
+venv/
+.venv/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local environment variables
+.env
+
+# Insightface model cache (if it gets created here)
+.insightface/

@@ -1,5 +1,6 @@
-# Use the full Debian-based Python image, not 'slim', as it's better for compiling
-FROM python:3.11
+# --- STAGE 1: The Builder ---
+# Use a full Python image that includes all necessary build tools
+FROM python:3.11 as builder
 
 # Set the working directory
 WORKDIR /app
@@ -13,11 +14,29 @@ RUN apt-get update && apt-get install -y \
     libglib2.0-0 \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy the requirements file first to leverage Docker layer caching
-COPY requirements.txt /app/
+# Copy only the requirements file
+COPY requirements.txt .
 
-# Install the Python packages
-RUN pip install --no-cache-dir -r requirements.txt
+# Install all Python packages into a dedicated folder
+# This will compile insightface and dlib successfully
+RUN pip install --no-cache-dir --prefix="/install" -r requirements.txt
+
+
+# --- STAGE 2: The Final Image ---
+# Start from the lightweight slim image for a smaller final size
+FROM python:3.11-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Install the same system libraries needed for the packages to RUN
+RUN apt-get update && apt-get install -y \
+    libgl1-mesa-glx \
+    libglib2.0-0 \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy the installed packages from the builder stage
+COPY --from=builder /install /usr/local
 
 # Copy the rest of the application code
 COPY ./app /app/app

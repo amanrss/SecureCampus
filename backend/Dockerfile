@@ -4,7 +4,7 @@ FROM python:3.11
 # Set the working directory
 WORKDIR /app
 
-# Install all system-level dependencies required for compiling and running the libraries
+# Install system-level dependencies required for compiling and running the libraries
 RUN apt-get update && apt-get install -y \
     build-essential \
     cmake \

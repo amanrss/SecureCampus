@@ -23,7 +23,7 @@ app = FastAPI(title="SecureCampus 2.0 Backend", version="1.0")
 app.mount(f"/{REGISTER_DIR}", StaticFiles(directory=REGISTER_DIR), name="registered_faces")
 
 # 3. Add CORS Middleware
-origins = [ALLOW_ORIGINS] if ALLOW_ORIGINS != "*" else ["*"]
+origins = ALLOW_ORIGINS.split(",") if ALLOW_ORIGINS != "*" else ["*"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -50,4 +50,4 @@ def root():
 
 # 7. Create the final combined ASGI app
 # This is the master app that directs traffic to Socket.IO or FastAPI
-combined_app = socketio. ASGIApp(sio, other_asgi_app=app)
+combined_app = socketio.ASGIApp(sio, other_asgi_app=app)

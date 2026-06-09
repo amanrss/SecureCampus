@@ -17,7 +17,7 @@ if INSIGHTFACE_AVAILABLE:
     class FaceEngine:
         def __init__(self):
             self.app = FaceAnalysis(name="buffalo_l")
-            self.app.prepare(ctx_id=0, det_size=(640, 640))
+            self.app.prepare(ctx_id=-1, det_size=(640, 640))
             self.cache = None
             self.meta = []
 

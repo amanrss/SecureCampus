@@ -18,7 +18,12 @@ from .services.face_service import engine
 
 # 1. Create the FastAPI app instance
 app = FastAPI(title="SecureCampus 2.0 Backend", version="1.0")
+from pathlib import Path
 
+Path(REGISTER_DIR).mkdir(
+    parents=True,
+    exist_ok=True
+)
 # 2. Mount the static directory for serving registered face images
 app.mount(f"/{REGISTER_DIR}", StaticFiles(directory=REGISTER_DIR), name="registered_faces")
 

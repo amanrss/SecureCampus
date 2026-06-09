@@ -46,8 +46,8 @@ if INSIGHTFACE_AVAILABLE:
             if self.cache is None or query_emb is None:
                 return None, 1.0
             q = query_emb.reshape(1, -1)
-            from sklearn.metrics.pairwise import cosine_similarity
-            sims = cosine_similarity(q, self.cache)[0]
+            q = q.flatten()
+            sims = np.dot(self.cache, q)
             best_idx = int(np.argmax(sims))
             best_sim = float(sims[best_idx])
             dist = 1.0 - best_sim
